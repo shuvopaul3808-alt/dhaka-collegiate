@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhaka Collegiate School</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #991b1b;
+            --bg: #f8fafc;
+            --text: #334155;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; }
+        header { background: white; border-bottom: 3px solid var(--primary); padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .lang-btn { background: var(--primary); color: white; border: none; padding: 6px 12px; font-size: 14px; border-radius: 4px; cursor: pointer; float: right; margin-top: -40px; }
+        .hero { background: linear-gradient(rgba(30,58,138,0.8), rgba(30,58,138,0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600') center/cover; color: white; padding: 40px 20px; text-align: center; }
+        .container { max-width: 800px; margin: 20px auto; padding: 0 15px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        h2 { color: var(--primary); margin-bottom: 15px; border-left: 4px solid var(--secondary); padding-left: 8px; font-size: 20px; }
+        
+        /* Result System Styling */
+        .search-box { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; width: 100%; -webkit-appearance: none; }
+        button.search-btn { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button.search-btn:active { transform: scale(0.98); }
+        .result-display { margin-top: 15px; padding: 15px; border-radius: 6px; display: none; background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .result-display.error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        
+        /* Academic Grid */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .class-btn { background: #e2e8f0; border: none; padding: 15px; border-radius: 6px; text-align: center; font-weight: 600; color: var(--primary); cursor: pointer; font-size: 15px; }
+        .class-btn:active { background: #cbd5e1; }
+        
+        /* Modal Popup */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 500px; position: relative; }
+        .close-modal { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #94a3b8; }
+        
+        footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 20px; font-size: 13px; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="font-size: 22px; color: var(--primary);">DCS Portal</h1>
+        <button class="lang-btn" onclick="toggleLanguage()">বাং</button>
+    </header>
+
+    <div class="hero">
+        <h2 style="color: white; border: none; padding: 0; font-size: 26px;" id="school-title">Dhaka Collegiate School</h2>
+        <p id="hero-sub" style="font-size: 14px; margin-top: 5px; opacity: 0.9;">Established: 1835 | Knowledge is Power</p>
+    </div>
+
+    <div class="container">
+        
+        <!-- Feature 1: Student Result Viewer -->
+        <div class="card">
+            <h2 id="title-result">Find Student Result</h2>
+            <p id="desc-result" style="font-size: 14px; color: #64748b;">Enter Student Roll/ID (e.g., 1001 to 1005) to check assessment scores.</p>
+            <div class="search-box">
+                <input type="number" id="student-id" placeholder="Enter Student ID / Roll...">
+                <button class="search-btn" onclick="searchResult()" id="btn-search">Search Result</button>
+            </div>
+            <div id="result-zone" class="result-display"></div>
+        </div>
+
+        <!-- Feature 2: Academic Info (Class 1-10) -->
+        <div class="card">
+            <h2 id="title-academic">Academic Information</h2>
+            <p id="desc-academic" style="font-size: 14px; color: #64748b;">Select a class level to view curriculum maps and guidelines.</p>
+            <div class="grid">
+                <button class="class-btn" onclick="showAcademic('Class 1 - 5', 'Primary Section: Focuses on foundation language skills, elementary mathematics, and integrated science environment scripts.')">Class 1 - 5</button>
+                <button class="class-btn" onclick="showAcademic('Class 6 - 8', 'Junior Secondary: Core curriculum shifts towards analytical algebra, laboratory introductions, and social sciences.')">Class 6 - 8</button>
+                <button class="class-btn" onclick="showAcademic('Class 9', 'Secondary Core Level: Specialized streams introduced (Science, Commerce, Arts). Preparation frameworks begin.')">Class 9</button>
+                <button class="class-btn" onclick="showAcademic('Class 10', 'SSC Preparatory Level: Rigorous model tests, complete syllabus review, and pre-board evaluations.')">Class 10</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Academic Information Modal Popup -->
+    <div id="academicModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title" style="color: var(--primary); margin-bottom: 10px;"></h3>
+            <p id="modal-body" style="font-size: 15px; color: var(--text);"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Dhaka Collegiate School Archive. Mobile Deployment System Node.</p>
+    </footer>
+
+    <script>
+        // Language Database Configurations
+        let currentLang = 'en';
+        const langData = {
+            en: {
+                title: "Dhaka Collegiate School", sub: "Established: 1835 | Knowledge is Power",
+                resTitle: "Find Student Result", resDesc: "Enter Student Roll/ID (e.g., 1001 to 1005) to check assessment scores.",
+                searchBtn: "Search Result", acTitle: "Academic Information", acDesc: "Select a class level to view curriculum maps and guidelines."
+            },
+            bn: {
+                title: "ঢাকা কলেজিয়েট স্কুল", sub: "প্রতিষ্ঠিত: ১৮৩৫ | জ্ঞানই শক্তি",
+                resTitle: "শিক্ষার্থীর ফলাফল অনুসন্ধান", resDesc: "মূল্যায়ন স্কোর দেখতে শিক্ষার্থীর আইডি/রোল (যেমন: 1001 থেকে 1005) লিখুন।",
+                searchBtn: "ফলাফল খুঁজুন", acTitle: "একাডেমিক তথ্যবলী", acDesc: "কারিকুলাম ম্যাপ এবং নির্দেশিকা দেখতে যেকোনো ক্লাস নির্বাচন করুন।"
+            }
+        };
+
+        // Static Mock Database Array Objects
+        const studentDatabase = {
+            "1001": { name: "Arif Rahman", class: "Class 9", gpa: "5.00", status: "Passed" },
+            "1002": { name: "Tanvir Ahmed", class: "Class 10", gpa: "4.85", status: "Passed" },
+            "1003": { name: "Sadia Islam", class: "Class 9", gpa: "5.00", status: "Passed" },
+            "1004": { name: "Mashfiqul Hasan", class: "Class 8", gpa: "4.20", status: "Passed" },
+            "1005": { name: "Nayeem Uddin", class: "Class 10", gpa: "3.90", status: "Passed" }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            document.querySelector('.lang-btn').innerText = currentLang === 'en' ? 'বাং' : 'Eng';
+            
+            document.getElementById('school-title').innerText = langData[currentLang].title;
+            document.getElementById('hero-sub').innerText = langData[currentLang].sub;
+            document.getElementById('title-result').innerText = langData[currentLang].resTitle;
+            document.getElementById('desc-result').innerText = langData[currentLang].resDesc;
+            document.getElementById('btn-search').innerText = langData[currentLang].searchBtn;
+            document.getElementById('title-academic').innerText = langData[currentLang].acTitle;
+            document.getElementById('desc-academic').innerText = langData[currentLang].acDesc;
+        }
+
+        function searchResult() {
+            const id = document.getElementById('student-id').value.trim();
+            const zone = document.getElementById('result-zone');
+            zone.style.display = "block";
+            zone.classList.remove('error');
+
+            if(!id) {
+                zone.classList.add('error');
+                zone.innerHTML = currentLang === 'en' ? "Please input an ID number first." : "অনুগ্রহ করে প্রথমে একটি আইডি নম্বর দিন।";
+                return;
+            }
+
+            if(studentDatabase[id]) {
+                const data = studentDatabase[id];
+                zone.innerHTML = currentLang === 'en' ? 
+                    `<strong>Name:</strong> ${data.name}<br><strong>Level:</strong> ${data.class}<br><strong>GPA:</strong> ${data.gpa}<br><strong>Status:</strong> ${data.status}` :
+                    `<strong>নাম:</strong> ${data.name}<br><strong>শ্রেণী:</strong> ${data.class}<br><strong>জিপিএ:</strong> ${data.gpa}<br><strong>অবস্থা:</strong> উত্তীর্ণ`;
+            } else {
+                zone.classList.add('error');
+                zone.innerHTML = currentLang === 'en' ? "ID record data not found. Try numbers 1001-1005." : "আইডি রেকর্ড পাওয়া যায়নি। অনুগ্রহ করে ১০০১ থেকে ১০০৫ ট্রাই করুন।";
+            }
+        }
+
+        function showAcademic(title, body) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = body;
+            document.getElementById('academicModal').style.display = "flex";
+        }
+        function closeModal() { document.getElementById('academicModal').style.display = "none"; }
+    </style>
+</head>
+<body>
+</body>
+</html>
