@@ -3,67 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dhaka Collegiate School</title>
+    <title>Dhaka Collegiate School | Official Portal</title>
     <style>
         :root { --primary: #1e3a8a; --secondary: #991b1b; --bg: #f8fafc; --text: #334155; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 30px; }
+        body { background: var(--bg); color: var(--text); padding-bottom: 50px; }
         header { background: white; border-bottom: 3px solid var(--primary); padding: 15px; text-align: center; }
         .lang-btn { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 4px; float: right; cursor: pointer; margin-top: -30px; }
-        .hero { background: var(--primary); color: white; padding: 30px 20px; text-align: center; }
-        .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        h2 { color: var(--primary); margin-bottom: 10px; font-size: 18px; }
-        .search-box { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        input { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; }
-        .search-btn { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        
+        /* Welcome Notice Overlay */
+        .welcome-hero { background: linear-gradient(rgba(30,58,138,0.85), rgba(30,58,138,0.95)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=600') center/cover; color: white; padding: 45px 20px; text-align: center; }
+        .container { max-width: 700px; margin: 20px auto; padding: 0 15px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 25px; }
+        h2 { color: var(--primary); margin-bottom: 12px; font-size: 19px; border-left: 4px solid var(--secondary); padding-left: 8px; }
+        
+        /* Input & Buttons */
+        .search-box, .upload-box { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+        input, select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; width: 100%; }
+        button { background: var(--secondary); color: white; border: none; padding: 12px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        button:active { transform: scale(0.99); }
         .result-display { margin-top: 15px; padding: 15px; border-radius: 6px; display: none; background: #f0fdf4; border: 1px solid #bbf7d0; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .class-btn { background: #e2e8f0; border: none; padding: 12px; border-radius: 6px; font-weight: bold; color: var(--primary); cursor: pointer; }
+        
+        /* Tables & Lists */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+        th, td { padding: 10px; border: 1px solid #cbd5e1; text-align: left; }
+        th { background: #f1f5f9; color: var(--primary); }
+        .notice-list li { padding: 8px 0; border-bottom: 1px dashed #cbd5e1; font-size: 14px; list-style-type: square; margin-left: 15px; }
+        
+        /* Photo Gallery Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .gallery-item { position: relative; width: 100%; height: 130px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .admin-panel { background: #f1f5f9; padding: 15px; border-radius: 6px; margin-top: 15px; border: 1px dashed var(--primary); }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>DCS Portal</h1>
+        <h1 style="font-size: 20px; color: var(--primary);">DCS Admin Node Portal</h1>
         <button class="lang-btn" onclick="toggleLanguage()">বাং</button>
     </header>
 
-    <div class="hero">
-        <h2 style="color: white;" id="school-title">Dhaka Collegiate School</h2>
-        <p id="hero-sub">Established: 1835 | Knowledge is Power</p>
+    <div class="welcome-hero">
+        <h2 style="color: white; border: none; padding: 0; font-size: 24px;" id="welcome-title">Welcome to Dhaka Collegiate School</h2>
+        <p id="welcome-msg" style="font-size: 14px; margin-top: 8px; opacity: 0.95;">Welcome to our smart management platform. Access student records, curriculum guides, and latest notifications live anywhere.</p>
     </div>
 
     <div class="container">
+
         <div class="card">
-            <h2 id="title-result">Find Student Result</h2>
-            <p id="desc-result" style="font-size: 13px; color: #64748b;">Enter Roll (1001 to 1005)</p>
+            <h2 id="sec-res">Search Student Performance</h2>
+            <p style="font-size: 13px; color: #64748b;" id="id-hint">Enter your official ID (Example database roll target: 18M02A029)</p>
             <div class="search-box">
-                <input type="text" id="student-id" placeholder="Enter Roll...">
-                <button class="search-btn" onclick="searchResult()" id="btn-search">Search Result</button>
+                <input type="text" id="student-id" placeholder="Format: 18M02A... " autocomplete="off">
+                <button style="background: var(--primary);" onclick="searchResult()" id="btn-search">Find Record</button>
             </div>
             <div id="result-zone" class="result-display"></div>
         </div>
 
         <div class="card">
-            <h2 id="title-academic">Academic Information</h2>
-            <div class="grid">
-                <button class="class-btn" onclick="alert('Primary Section (Class 1-5): Foundation Education')">Class 1 - 5</button>
-                <button class="class-btn" onclick="alert('Junior Secondary (Class 6-8): Core Curriculum')">Class 6 - 8</button>
-                <button class="class-btn" onclick="alert('Class 9: Specialized Streams Intro')">Class 9</button>
-                <button class="class-btn" onclick="alert('Class 10: SSC Preparation Framework')">Class 10</button>
+            <h2 id="sec-news">Official Notice Board</h2>
+            <ul class="notice-list" id="notice-box">
+                <li><strong>[28 May 2026]</strong> Half-Yearly examination schedule roadmap has been published.</li>
+                <li><strong>[20 May 2026]</strong> Inter-Class National Science Fair registration opens this weekend.</li>
+                <li><strong>[12 May 2026]</strong> Summer vacation tracking node update: School closed from June 1st.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 id="sec-syll">Syllabus Archive (Class 1 - 10)</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 10px;">Select class hierarchy to fetch official active files.</p>
+            <select id="syllabus-select" onchange="fetchSyllabus()">
+                <option value="">-- Choose Class Level --</option>
+                <option value="Primary (Class 1-5)">Class 1 to 5 Syllabus</option>
+                <option value="Junior Secondary (Class 6-8)">Class 6 to 8 Syllabus</option>
+                <option value="Secondary (Class 9-10)">Class 9 and 10 Syllabus</option>
+            </select>
+            <div id="syllabus-zone" style="margin-top:10px; font-weight:bold; color:var(--secondary); font-size:14px;"></div>
+        </div>
+
+        <div class="card">
+            <h2 id="sec-teach">Honorable Teachers List</h2>
+            <table>
+                <thead>
+                    <tr><th id="th-name">Teacher Name</th><th id="th-sub">Designation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Mr. Ahsan Ullah</td><td>Headmaster (Mathematics)</td></tr>
+                    <tr><td>Mrs. Rokeya Begum</td><td>Assistant Teacher (Biology)</td></tr>
+                    <tr><td>Mr. Kamrul Hasan</td><td>Senior Instructor (Physics)</td></tr>
+                    <tr><td>Mahmudul Alam</td><td>Chemistry Specialist</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2 id="sec-gal">School Event Photo Gallery</h2>
+            <p style="font-size: 13px; color: #64748b;">Public users can view. Admin verification barrier controls photo uploads.</p>
+            
+            <div class="gallery-grid" id="gallery-container">
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=300" alt="DCS"></div>
+                <div class="gallery-item"><img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=300" alt="Lab"></div>
+            </div>
+
+            <div class="admin-panel">
+                <strong style="font-size: 14px; color: var(--primary);" id="adm-head">🔒 Secure Teacher/Admin Upload Panel</strong>
+                <div class="upload-box">
+                    <input type="password" id="admin-pass" placeholder="Enter System Admin Password...">
+                    <input type="text" id="img-url" placeholder="Paste Image URL link here...">
+                    <button onclick="adminUploadPhoto()" id="btn-up">Verify & Upload Photo</button>
+                </div>
             </div>
         </div>
+
     </div>
 
     <script>
         let currentLang = 'en';
+
+        // Static Real ID Format Target Local Records 
         const studentDatabase = {
-            "1001": { name: "Arif Rahman", gpa: "5.00", status: "Passed" },
-            "1002": { name: "Tanvir Ahmed", gpa: "4.85", status: "Passed" },
-            "1003": { name: "Sadia Islam", gpa: "5.00", status: "Passed" },
-            "1004": { name: "Mashfiqul Hasan", gpa: "4.20", status: "Passed" },
-            "1005": { name: "Nayeem Uddin", gpa: "3.90", status: "Passed" }
+            "18M02A029": { name: "Shuvo Paul", class: "Class 10", gpa: "5.00", status: "Passed (Excellent)" },
+            "18M02A030": { name: "Tahsin Ahmed", class: "Class 9", gpa: "4.92", status: "Passed" },
+            "18M02A031": { name: "Rafsan Kabir", class: "Class 10", gpa: "4.50", status: "Passed" }
+        };
+
+        const langData = {
+            en: {
+                welcomeT: "Welcome to Dhaka Collegiate School",
+                welcomeM: "Welcome to our smart management platform. Access student records, curriculum guides, and latest notifications live anywhere.",
+                res: "Search Student Performance", hint: "Enter your official ID (Example database roll target: 18M02A029)",
+                news: "Official Notice Board", syll: "Syllabus Archive (Class 1 - 10)", teach: "Honorable Teachers List", gal: "School Event Photo Gallery"
+            },
+            bn: {
+                welcomeT: "ঢাকা কলেজিয়েট স্কুলে আপনাকে স্বাগতম",
+                welcomeM: "আমাদের স্মার্ট স্কুল ম্যানেজমেন্ট প্ল্যাটফর্মে স্বাগতম। এখান থেকে খুব সহজেই সব ক্লাসের পরীক্ষার ফলাফল, সিলেবাস এবং নোটিশ বোর্ড দেখা যাবে।",
+                res: "শিক্ষার্থীর ফলাফল অনুসন্ধান", hint: "আপনার স্কুলের সঠিক আইডি দিন (যেমন ডাটাবেস রোল আইডি: 18M02A029)",
+                news: "অফিসিয়াল নোটিশ বোর্ড", syll: "সিলেবাস আর্কাইভ (শ্রেণী ১ - ১০)", teach: "সম্মানিত শিক্ষক শিক্ষিকাবৃন্দের তালিকা", gal: "বিদ্যালয়ের ছবি গ্যালারি"
+            }
         };
 
         function searchResult() {
@@ -72,22 +149,62 @@
             zone.style.display = "block";
 
             if(!id) {
-                zone.innerHTML = "Please input a Roll number.";
+                zone.innerHTML = currentLang === 'en' ? "Error: Please provide a valid student ID." : "ত্রুটি: অনুগ্রহ করে প্রথমে একটি আইডি নম্বর প্রদান করুন।";
                 return;
             }
 
             if(studentDatabase[id]) {
                 const data = studentDatabase[id];
-                zone.innerHTML = `<strong>Name:</strong> ${data.name}<br><strong>GPA:</strong> ${data.gpa}<br><strong>Status:</strong> ${data.status}`;
+                zone.innerHTML = `<strong>Name:</strong> ${data.name}<br><strong>Level:</strong> ${data.class}<br><strong>GPA Obtained:</strong> ${data.gpa}<br><strong>Status:</strong> ${data.status}`;
             } else {
-                zone.innerHTML = "Result not found! Try 1001, 1002, or 1003.";
+                zone.innerHTML = currentLang === 'en' ? "No records found matching this ID pattern. Try 18M02A029" : "এই আইডি নম্বরের কোনো রেকর্ড ডাটাবেজে পাওয়া যায়নি। সঠিক আইডি (18M02A029) দিয়ে চেষ্টা করুন।";
             }
+        }
+
+        function fetchSyllabus() {
+            const val = document.getElementById('syllabus-select').value;
+            const zone = document.getElementById('syllabus-zone');
+            if(val) {
+                zone.innerHTML = `📄 ${val} Core Syllabus File mapping initiated. Download link ready [Click to view Blueprint PDF]`;
+            } else { zone.innerHTML = ""; }
+        }
+
+        // Secure Upload Gate logic
+        function adminUploadPhoto() {
+            const pass = document.getElementById('admin-pass').value;
+            const url = document.getElementById('img-url').value.trim();
+            
+            // Setting a hardcoded master pass for the user
+            if(pass !== "collegiate1835") {
+                alert("❌ Authentication Failed! Wrong admin password. Only the site owner can upload pics.");
+                return;
+            }
+            if(!url) {
+                alert("Please put a valid image web URL target link first.");
+                return;
+            }
+
+            const container = document.getElementById('gallery-container');
+            const newItem = document.createElement('div');
+            newItem.className = "gallery-item";
+            newItem.innerHTML = `<img src="${url}" alt="Admin Uploaded">`;
+            container.appendChild(newItem);
+            
+            alert("🎯 Image Authentication Success! Photo has been appended to the secure public gallery block.");
+            document.getElementById('img-url').value = "";
         }
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'bn' : 'en';
-            document.getElementById('school-title').innerText = currentLang === 'en' ? "Dhaka Collegiate School" : "ঢাকা কলেজিয়েট স্কুল";
-            document.getElementById('title-result').innerText = currentLang === 'en' ? "Find Student Result" : "শিক্ষার্থীর ফলাফল অনুসন্ধান";
+            document.querySelector('.lang-btn').innerText = currentLang === 'en' ? 'বাং' : 'Eng';
+            document.getElementById('welcome-title').innerText = langData[currentLang].welcomeT;
+            document.getElementById('welcome-msg').innerText = langData[currentLang].welcomeM;
+            document.getElementById('sec-res').innerText = langData[currentLang].res;
+            document.getElementById('id-hint').innerText = langData[currentLang].hint;
+            document.getElementById('sec-news').innerText = langData[currentLang].news;
+            document.getElementById('sec-syll').innerText = langData[currentLang].syll;
+            document.getElementById('sec-teach').innerText = langData[currentLang].teach;
+            document.getElementById('sec-gal').innerText = langData[currentLang].gal;
         }
     </script>
 </body>
