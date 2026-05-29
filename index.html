@@ -161,7 +161,19 @@
             }
         }
 
-        function fetchSyllabus() {
+        function fetchSyllabus(function fetchSyllabus() {
+            const val = document.getElementById('syllabus-select').value;
+            const zone = document.getElementById('syllabus-zone');
+            
+            if(val === "Primary (Class 1-5)") {
+                // 📄 'https://photos.app.goo.gl/dvuCvQ9SHPzp76WL7' 
+                zone.innerHTML = `📄 Class 3 Syllabus ready! <a href="TOMAR_CLASS_3_DRIVE_LINK_HERE" target="_blank" style="color: var(--secondary); font-weight: bold; text-decoration: underline;">Click Here to Download Class 3 PDF</a>`;
+            } else if(val) {
+                zone.innerHTML = `📄 ${val} Core Syllabus File mapping initiated. Download link ready.`;
+            } else { 
+                zone.innerHTML = ""; 
+            }
+        }) {
             const val = document.getElementById('syllabus-select').value;
             const zone = document.getElementById('syllabus-zone');
             if(val) {
